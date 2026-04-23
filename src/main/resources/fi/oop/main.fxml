@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<VBox spacing="10" alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="fi.oop.MainController">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="School Library"
+           style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <ListView fx:id="itemListView" prefHeight="200" prefWidth="300"/>
+
+    <Label fx:id="itemInfoLabel" text="Select an item to see details."/>
+
+    <ComboBox fx:id="userComboBox" onAction="#handleUserSelection"
+              prefWidth="250"/>
+
+    <Label fx:id="userInfoLabel" text="Select a user."/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Borrow" onAction="#handleBorrow"/>
+        <Button text="Return" onAction="#handleReturn"/>
+    </HBox>
+
+    <Label fx:id="statusLabel" text="Ready."/>
+
+</VBox>
