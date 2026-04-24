@@ -1,5 +1,6 @@
 package fi.oop;
 
+import fi.oop.service.LibraryService;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -20,6 +21,27 @@ public class MainController {
 
     @FXML
     private Label statusLabel;
+
+    private final LibraryService libraryService = new LibraryService();
+
+    @FXML
+    public void initialize() {
+
+        // Seed library items
+        libraryService.addItem("Php Programming for beginner");
+        libraryService.addItem("Python 3 Basics");
+        libraryService.addItem("Java Programming Basics");
+
+        // Show items in ListView
+        itemListView.getItems().addAll(libraryService.getItems());
+
+        // Seed users
+        userComboBox.getItems().addAll(
+            "Guest",
+            "Student",
+            "Staff"
+        );
+    }
 
     @FXML
     private void handleUserSelection() {
