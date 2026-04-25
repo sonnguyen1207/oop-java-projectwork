@@ -50,11 +50,29 @@ public class MainController {
 
     @FXML
     private void handleBorrow() {
-        statusLabel.setText("Borrow clicked");
+        String selectedItem = itemListView.getSelectionModel().getSelectedItem();
+        String selectedUser = userComboBox.getValue();
+
+        if (selectedItem == null || selectedUser == null) {
+            statusLabel.setText("Please select both item and user.");
+            return;
+        }
+
+        String message = libraryService.borrow(selectedUser, selectedItem);
+        statusLabel.setText(message);
     }
 
     @FXML
     private void handleReturn() {
-        statusLabel.setText("Return clicked");
+        String selectedItem = itemListView.getSelectionModel().getSelectedItem();
+        String selectedUser = userComboBox.getValue();
+
+        if (selectedItem == null || selectedUser == null) {
+            statusLabel.setText("Please select both item and user.");
+            return;
+        }
+
+        String message = libraryService.returnItem(selectedUser, selectedItem);
+        statusLabel.setText(message);
     }
 }
