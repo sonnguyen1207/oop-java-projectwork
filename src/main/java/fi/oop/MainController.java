@@ -96,6 +96,7 @@ public class MainController {
         statusLabel.setText(service.borrow(user, item));
 
         itemListView.setItems(FXCollections.observableArrayList(service.getItems()));
+        handleUserSelection();
     }
 
     @FXML
@@ -112,5 +113,6 @@ public class MainController {
         statusLabel.setText(service.returnItem(user, item));
 
         itemListView.setItems(FXCollections.observableArrayList(service.getItems()));
+        handleUserSelection();
     }
 }
