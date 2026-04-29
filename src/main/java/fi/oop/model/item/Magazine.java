@@ -34,6 +34,7 @@ public class Magazine extends LibraryItem {
         return "Title: " + getTitle()
                 + "\nPublisher: " + publisher
                 + "\nIssue Number: " + issueNumber
+                + "\nStatus: " + (isAvailable() ? "Available" : "Borrowed")
                 + "\nLoan Period: " + getBorrowingDays() + " days";
     }
 }

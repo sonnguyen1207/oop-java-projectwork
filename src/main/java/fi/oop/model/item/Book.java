@@ -34,6 +34,7 @@ public class Book extends LibraryItem {
         return "Title: " + getTitle()
                 + "\nAuthor: " + author
                 + "\nISBN: " + isbn
+                + "\nStatus: " + (isAvailable() ? "Available" : "Borrowed")
                 + "\nLoan Period: " + getBorrowingDays() + " days";
     }
 }
