@@ -57,7 +57,28 @@ public class MainController {
 
     @FXML
     private void handleUserSelection() {
-        userInfoLabel.setText("Selected: " + userComboBox.getValue());
+        LibraryUser user = userComboBox.getValue();
+
+        if (user == null) {
+            userInfoLabel.setText("No user selected.");
+            return;
+        }
+
+        StringBuilder info = new StringBuilder();
+
+        info.append("Type: ").append(user.getUserType());
+        info.append("\nLimit: ").append(user.getBorrowLimit());
+        info.append("\nBorrowed: ");
+
+        if (user.getBorrowedItems().isEmpty()) {
+            info.append("None");
+        } else {
+            for (LibraryItem item : user.getBorrowedItems()) {
+                info.append("\n- ").append(item.getTitle());
+            }
+        }
+
+        userInfoLabel.setText(info.toString());
     }
 
 
