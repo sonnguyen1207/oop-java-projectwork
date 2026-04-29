@@ -19,7 +19,7 @@ public class MainController {
     private Label itemInfoLabel;
 
     @FXML
-    private ComboBox<String> userComboBox;
+    private ComboBox<LibraryUser> userComboBox;
 
     @FXML
     private Label userInfoLabel;
@@ -41,7 +41,11 @@ public class MainController {
         itemListView.setItems(FXCollections.observableArrayList(service.getItems()));
 
         userComboBox.setItems(FXCollections.observableArrayList(
-                "Guest", "Student", "Staff"));
+                new Guest("U001", "Alice"),
+                new Student("U002", "Bob", "S12345"),
+                new Staff("U003", "Emma", "IT")));
+
+        userComboBox.getSelectionModel().selectFirst();
 
         itemListView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldItem, newItem) -> {
@@ -56,29 +60,17 @@ public class MainController {
         userInfoLabel.setText("Selected: " + userComboBox.getValue());
     }
 
-    private LibraryUser createUser(String type) {
-
-        if (type.equals("Guest")) {
-            return new Guest("U001", "Guest User");
-        } else if (type.equals("Student")) {
-            return new Student("U002", "Student User", "S1001");
-        } else {
-            return new Staff("U003", "Staff User", "IT");
-        }
-    }
 
     @FXML
     public void handleBorrow() {
 
         LibraryItem item = itemListView.getSelectionModel().getSelectedItem();
-        String selected = userComboBox.getValue();
+        LibraryUser user = userComboBox.getValue();
 
-        if (item == null || selected == null) {
+        if (item == null || user == null) {
             statusLabel.setText("Select item and user.");
             return;
         }
-
-        LibraryUser user = createUser(selected);
 
         statusLabel.setText(service.borrow(user, item));
 
@@ -89,14 +81,12 @@ public class MainController {
     public void handleReturn() {
 
         LibraryItem item = itemListView.getSelectionModel().getSelectedItem();
-        String selected = userComboBox.getValue();
+        LibraryUser user = userComboBox.getValue();
 
-        if (item == null || selected == null) {
+        if (item == null || user == null) {
             statusLabel.setText("Select item and user.");
             return;
         }
-
-        LibraryUser user = createUser(selected);
 
         statusLabel.setText(service.returnItem(user, item));
 
