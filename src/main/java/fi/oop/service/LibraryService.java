@@ -1,6 +1,9 @@
 package fi.oop.service;
 
 import fi.oop.model.item.LibraryItem;
+import fi.oop.model.user.LibraryUser;
+
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,24 +20,34 @@ public class LibraryService {
         return Collections.unmodifiableList(items);
     }
 
-    public String borrow(String user, LibraryItem item) {
+    public String borrow(LibraryUser user, LibraryItem item) {
 
-        if (!item.isAvailable()) {
-            return item.getTitle() + " is not available.";
-        }
+    if (!item.isAvailable()) {
+        return item.getTitle() + " is not available.";
+    }
 
-        item.setAvailable(false);
-        return user + " borrowed " + item.getTitle()
+    if (!user.canBorrow()) {
+        return user.getName() + " has reached the borrow limit.";
+    }
+
+    boolean success = user.borrowItem(item);
+
+    if (success) {
+        return user.getName() + " borrowed " + item.getTitle()
                 + " for " + item.getBorrowingDays() + " days.";
     }
 
-    public String returnItem(String user, LibraryItem item) {
+    return "Borrow failed.";
+}
 
-        if (item.isAvailable()) {
-            return item.getTitle() + " was not borrowed.";
-        }
+    public String returnItem(LibraryUser user, LibraryItem item) {
 
-        item.setAvailable(true);
-        return user + " returned " + item.getTitle() + ".";
+    boolean success = user.returnItem(item);
+
+    if (success) {
+        return user.getName() + " returned " + item.getTitle() + ".";
     }
+
+    return user.getName() + " did not borrow this item.";
+}
 }
