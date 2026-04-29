@@ -20,7 +20,7 @@ public class LibraryService {
     public String borrow(String user, LibraryItem item) {
 
         if (!item.isAvailable()) {
-            return item.getTitle() + " is already borrowed.";
+            return item.getTitle() + " is not available.";
         }
 
         item.setAvailable(false);
