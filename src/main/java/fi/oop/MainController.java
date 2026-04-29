@@ -64,18 +64,20 @@ public class MainController {
             return;
         }
 
+        int borrowed = user.getBorrowedItems().size();
+        int limit = user.getBorrowLimit();
+
         StringBuilder info = new StringBuilder();
 
-        info.append("Type: ").append(user.getUserType());
-        info.append("\nLimit: ").append(user.getBorrowLimit());
-        info.append("\nBorrowed: ");
+        info.append(user.getUserType())
+                .append(": ")
+                .append(borrowed)
+                .append("/")
+                .append(limit)
+                .append(" borrowed");
 
-        if (user.getBorrowedItems().isEmpty()) {
-            info.append("None");
-        } else {
-            for (LibraryItem item : user.getBorrowedItems()) {
-                info.append("\n- ").append(item.getTitle());
-            }
+        for (LibraryItem item : user.getBorrowedItems()) {
+            info.append("\n- ").append(item.getTitle());
         }
 
         userInfoLabel.setText(info.toString());
@@ -96,6 +98,8 @@ public class MainController {
         statusLabel.setText(service.borrow(user, item));
 
         itemListView.setItems(FXCollections.observableArrayList(service.getItems()));
+        
+        refreshItemList(item);
         handleUserSelection();
     }
 
@@ -113,6 +117,18 @@ public class MainController {
         statusLabel.setText(service.returnItem(user, item));
 
         itemListView.setItems(FXCollections.observableArrayList(service.getItems()));
-        handleUserSelection();
+        
+        refreshItemList(item);
+        handleUserSelection(); 
+    }
+
+    private void refreshItemList(LibraryItem selectedItem) {
+
+        itemListView.setItems(
+                FXCollections.observableArrayList(service.getItems()));
+
+        if (selectedItem != null) {
+            itemListView.getSelectionModel().select(selectedItem);
+        }
     }
 }
